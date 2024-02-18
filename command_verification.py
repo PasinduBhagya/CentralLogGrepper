@@ -30,7 +30,6 @@ def command_verification(arguments):
     exit()
   else:
     if "--jira-id" not in arguments and "--string" not in arguments:
-      print(arguments)
       print("ERROR: Please mention --jira-id or --string parameters.")
       exit()
     else:

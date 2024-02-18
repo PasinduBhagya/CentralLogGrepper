@@ -18,8 +18,8 @@ def read_jira(jira_id, jira_url, jira_username, jira_api_key):
         issue_data = response.json()
         description = issue_data["fields"]["description"].strip("\n").split()
         comment = issue_data["fields"]["comment"]["comments"][0]["body"]
-        print(comment)
-        exit()
+        # print(comment)
+        # exit()
 
     else:
         print(f"ERROR: JIRA cannot not be found. Status code: {response.status_code}")
