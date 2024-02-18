@@ -27,7 +27,6 @@ id_list = []
 
 getCompressedLogFile(log_file_date, archived_log_file_path)
 
-
 # Try to add Comment in here as well
 def getFromJIRA(jira_id):
     print(f"INFO: Reading {jira_id} JIRA.")
