@@ -1,66 +1,42 @@
 import sys
 from configparser import ConfigParser
 
-from command_verification import command_verification
+from Functions.command_verification import command_verification
 arguments = sys.argv
 search_method = command_verification(arguments)
 
-log_file_date = arguments[arguments.index("--date")+1]
-
-from read_JIRA import read_jira, collecting_ids
-from retrieveLogs import retrieveLogs
-from notify_google_chat import sendNotification
-from getComLogFile import getCompressedLogFile
+log_requested_date = arguments[arguments.index("--date")+1]
 
 config = ConfigParser()
 config.read('./configurations.cfg')
 
-# Loading directory parameters
-archived_log_file_path = config.get('DIRECTORY_PATHS', 'ARCHIVED_LOG_FILE_PATH')
+jira_id = arguments[arguments.index("--jira-id")+1]
+print(f"INFO: Reading JIRA ID - {jira_id}.")
 
-# Loading JIRA parameters
-jira_url = config.get('JIRA_PARAMETERS', 'JIRA_URL')
-jira_username = config.get('JIRA_PARAMETERS', 'JIRA_USERNAME')
-jira_api_key = config.get('JIRA_PARAMETERS', 'JIRA_API_KEY')
+# Reading the Entire JIRA
+from Functions.read_JIRA import read_jira
+jira_description, jira_comments = read_jira(jira_id)
 
-id_list = []
+# Checking for Archived log File path on the requested date
+from Functions.getComLogFile import getCompressedLogFile
 
-getCompressedLogFile(log_file_date, archived_log_file_path)
+req_log_date = arguments[arguments.index("--date")+1]
+getCompressedLogFile(req_log_date) 
 
-# Try to add Comment in here as well
-def getFromJIRA(jira_id):
-    print(f"INFO: Reading {jira_id} JIRA.")
-    description = read_jira(jira_id, jira_url, jira_username, jira_api_key)
-    print("INFO: Getting booking_id and session_id.")
+# Checking Each String of the comment to check Booking_IDs, Session_IDs and Basket IDs
+from Functions.collect_searchIDs import collectIDs
+collected_ID_List = collectIDs(jira_description, jira_comments)
 
-    for single_string in description:
-        search_id = collecting_ids(single_string)
-        if search_id is not None:
-            id_list.append(search_id)
-            print(f"INFO: Identified ID - \t {search_id}")
-            print(f"INFO: Collecting {search_id} from the Log File.")
-            folder_name = retrieveLogs(search_id, archived_log_file_path)
-        
-    print("INFO: Sending notification to the space.")
-    sendNotification(folder_name)
+# Creating for the Directory for the JIRA
+from Functions.createDir import createDir
+archived_log_file_path = createDir(jira_id)
 
-def getFromString(search_string):
-    print(f"INFO: Searching for the {search_string} in the Archived Logs.")
+# Searching the Log files for specific strings
+from Functions.retrieveLogs import getSearchString
+getSearchString(collected_ID_List, archived_log_file_path, jira_id)
 
-    folder_name = retrieveLogs(search_string, archived_log_file_path)
-        
-    print("INFO: Sending notification to the space.")
-    sendNotification(folder_name)
+# Send the Notification to via the Google Space
+from Functions.notify_google_chat import sendNotification
+sendNotification(jira_id)
 
-if "--jira-id" in arguments:
-    jira_id = arguments[arguments.index("--jira-id")+1]
-    if "--comment-id" in arguments:
-        jira_comment_id = arguments[arguments.index("--comment-id")+1]
-        print(jira_comment_id)
-
-    getFromJIRA(jira_id)
-
-elif "--string" in arguments:
-    search_string = arguments[arguments.index("--string")+1]
-    getFromString(search_string)
-    
+print("\nINFO: Log grepping process is completed")
