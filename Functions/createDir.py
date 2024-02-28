@@ -18,5 +18,3 @@ def createDir(jira_id):
     except:
         print(f"\nError: Failed to create {log_store_directory_path} directory.\n")
         exit()
-    
-    return log_store_directory_path

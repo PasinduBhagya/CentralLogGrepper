@@ -29,11 +29,11 @@ collected_ID_List = collectIDs(jira_description, jira_comments)
 
 # Creating for the Directory for the JIRA
 from Functions.createDir import createDir
-archived_log_file_path = createDir(jira_id)
+createDir(jira_id)
 
 # Searching the Log files for specific strings
 from Functions.retrieveLogs import getSearchString
-getSearchString(collected_ID_List, archived_log_file_path, jira_id, available_log_archive_files)
+getSearchString(collected_ID_List, jira_id, available_log_archive_files)
 
 # Send the Notification to via the Google Space
 from Functions.notify_google_chat import sendNotification
