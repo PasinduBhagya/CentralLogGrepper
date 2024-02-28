@@ -1,2 +1,5 @@
 # Config File
 configurations.cfg
+
+# PyCacheDirectory
+__pycache__
