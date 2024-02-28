@@ -28,7 +28,7 @@ def checkString(single_string):
 def collectIDs(jira_description, jira_comments):
 
     collected_ID_List = []
-
+    
     total_string_list = jira_description + jira_comments
 
     for single_string in total_string_list:
@@ -37,7 +37,7 @@ def collectIDs(jira_description, jira_comments):
             collected_ID_List.append(search_id)
     print(f"INFO: Searching for Booking IDs, Basket IDs and Session IDs has been completed.")
     if len(collected_ID_List) == 0:
-        print("Warning: Unable to find Booking IDs, Basket IDs and Session IDs from {jira_id}.")
+        print("Warning: Unable to find Booking IDs, Basket IDs and Session IDs from the provided JIRA.")
         exit()
     else:
         return collected_ID_List

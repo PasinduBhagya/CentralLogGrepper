@@ -27,7 +27,12 @@ def read_jira(jira_id):
 
     if response.status_code == 200:
         issue_data = response.json()
-        description = issue_data["fields"]["description"].strip("\n").split()
+        print(issue_data["fields"]["description"])
+        description=[]
+        try:
+            description = issue_data["fields"]["description"].strip("\n").split()
+        except:
+            print(f"Error: Nothing found on the description on {jira_id}")
         while True:
             try:
                 comment = issue_data["fields"]["comment"]["comments"][comment_id]["body"]
