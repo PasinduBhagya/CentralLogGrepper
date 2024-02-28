@@ -21,7 +21,7 @@ jira_description, jira_comments = read_jira(jira_id)
 from Functions.getComLogFile import getCompressedLogFile
 
 req_log_date = arguments[arguments.index("--date")+1]
-getCompressedLogFile(req_log_date) 
+available_log_archive_files = getCompressedLogFile(req_log_date) 
 
 # Checking Each String of the comment to check Booking_IDs, Session_IDs and Basket IDs
 from Functions.collect_searchIDs import collectIDs
@@ -33,7 +33,7 @@ archived_log_file_path = createDir(jira_id)
 
 # Searching the Log files for specific strings
 from Functions.retrieveLogs import getSearchString
-getSearchString(collected_ID_List, archived_log_file_path, jira_id)
+getSearchString(collected_ID_List, archived_log_file_path, jira_id, available_log_archive_files)
 
 # Send the Notification to via the Google Space
 from Functions.notify_google_chat import sendNotification

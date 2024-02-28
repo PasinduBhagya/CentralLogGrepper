@@ -8,6 +8,7 @@ config.read('./configurations.cfg')
 
 # Loading Directory Parameters
 retrieved_log_file_sharing_path = config.get('DIRECTORY_PATHS', 'RETRIEVED_LOG_FILE_SHARING_PATH')
+archived_log_file_names = config.get('PROJECT_PARAMETERS', 'PROJECT_LOG_ARCHIVED_DIRECTORY_NAMES')
 #
 # if not os.path.exists(log_store_directory_path):
 

@@ -16,7 +16,7 @@ retrieved_log_file_sharing_path = config.get('DIRECTORY_PATHS', 'RETRIEVED_LOG_F
 def sendNotification(jira_id):
     """Google Chat incoming webhook quickstart."""
     url = "https://chat.googleapis.com/v1/spaces/AAAAopTT5tk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=8bjADeLFjGKgH5UGPGuGQzMP-aC9PD4y4K4kttY-gME"
-    app_message = {"text": f"You log files can be collected from {jira_id} directory located at {retrieved_log_file_sharing_path}\n\nDesigned and Developed by Pasindu Bhagya"}
+    app_message = {"text": f"You log files can be collected from {jira_id} directory located at {retrieved_log_file_sharing_path}\n\nTesting by Pasindu Bhagya"}
     message_headers = {"Content-Type": "application/json; charset=UTF-8"}
     http_obj = Http()
     http_obj.request(
