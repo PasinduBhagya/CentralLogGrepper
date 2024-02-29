@@ -37,6 +37,7 @@ getSearchString(collected_ID_List, jira_id, available_log_archive_files)
 
 # Send the Notification to via the Google Space
 from Functions.notify_google_chat import sendNotification
+exit()
 sendNotification(jira_id)
 
 print("\nINFO: Log grepping process is completed")

@@ -27,10 +27,21 @@ def checkString(single_string):
 
 def collectIDs(jira_description, jira_comments):
 
+    updated_jira_comments = []
+
     collected_ID_List = []
     
-    total_string_list = jira_description + jira_comments
+    for comment in jira_comments:
+        if "\n" in comment:
+            for single_comment in comment.split("\n"):
+                if len(single_comment) != 0:
+                    updated_jira_comments.append(single_comment)
+        # elif " " in comment:
+        #     print("Spaces Contains:" + comment)
+        else:
+            updated_jira_comments.append(comment)
 
+    total_string_list = jira_description + updated_jira_comments
     for single_string in total_string_list:
         search_id = checkString(single_string)
         if search_id is not None:

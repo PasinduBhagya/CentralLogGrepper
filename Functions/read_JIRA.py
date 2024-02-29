@@ -27,7 +27,6 @@ def read_jira(jira_id):
 
     if response.status_code == 200:
         issue_data = response.json()
-        print(issue_data["fields"]["description"])
         description=[]
         try:
             description = issue_data["fields"]["description"].strip("\n").split()
